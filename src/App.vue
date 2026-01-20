@@ -2,12 +2,19 @@
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import AppMenu from './components/AppMenu.vue'
+import AppMessages from './components/AppMessages.vue';
+import BooksList from './components/BooksList.vue';
 </script>
 
 <template>
   <header>
 
     <AppMenu />
+
+    <AppMessages></AppMessages>
+    <BooksList></BooksList>
+
+
 
     
 
