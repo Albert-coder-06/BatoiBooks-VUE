@@ -6,35 +6,70 @@ export const store = {
     state: reactive({
         books: [],
         messages: [],
+        cart: [],
     }),
     async fetchBooksAction() {
         if (this.debug) console.log("fetchBooksAction triggered");
 
-        this.state.books = await api.fetchBooks();
+        const response = await api.fetchBooks();
+        if (this.debug) console.log("API Response:", response);
+
+        if (response.success) {
+            // Vaciamos y rellenamos para asegurar reactividad en todos los casos
+            this.state.books.splice(0, this.state.books.length, ...response.data);
+
+            this.addMessageAction("Libros cargados correctamente", 'success');
+
+            if (this.debug) console.log("Books loaded:", this.state.books);
+
+        } else {
+            this.addMessageAction(response.message, 'error');  
+        }
     },
     async addBookAction(newBook) {
         if (this.debug) console.log("addBookAction triggered with ", newBook);
 
-        const addedBook = await api.addBook(newBook);
+        const response = await api.addBook(newBook);
 
-        this.state.books.push(addedBook);
+        if (response.success) {
+            this.state.books.push(response.data);
+            this.addMessageAction("Libro añadido correctamente", 'success');
+        } else {
+            this.addMessageAction(response.message, 'error');
+        }
     },
     async removeBookAction(bookIdToRemove) {
         if (this.debug) console.log("removeBookAction triggered with id ", bookIdToRemove);
 
-        await api.removeBook(bookIdToRemove);
+        const response = await api.removeBook(bookIdToRemove);
 
-        this.state.books = this.state.books.filter((book) => book.id !== bookIdToRemove);
-    },
-    async toggleDoneAction(todoId, done) {
-        if (this.debug) console.log("toggleDoneAction triggered with id ", todoId, " done: ", done);
-
-        const updatedTodo = await api.toggleTodoDone(todoId, done);
-        const index = this.state.todos.findIndex((todo) => todo.id === todoId);
-
-        if (index !== -1) {
-            this.state.todos[index] = updatedTodo;
+        if (response.success) {
+            this.state.books = this.state.books.filter((book) => book.id !== bookIdToRemove);
+            this.addMessageAction(response.message, 'success');
+        } else {
+            this.addMessageAction(response.message, 'error');
         }
+    },
+    getCartAction() {
+        if (this.debug) console.log("getCartAction triggered");
+
+        if (localStorage.getItem("cart") === null) {
+            this.state.cart = [];
+        } else {
+            this.state.cart = JSON.parse(localStorage.getItem("cart"));
+        }
+    },
+    addBookToCartAction(book) {
+        this.state.cart.push(book);
+        localStorage.setItem("cart", JSON.stringify(this.state.cart));
+    },
+    deleteBookFromCartAction(bookId) {
+        this.state.cart.splice(bookId, 1);
+        localStorage.setItem("cart", JSON.stringify(this.state.cart));
+    },
+    clearCartAction() {
+        this.state.cart.splice(0, this.state.cart.length);
+        localStorage.setItem("cart", JSON.stringify(this.state.cart));
     },
     addMessageAction(message, type = 'info') {
         this.state.messages.push({ message, type });

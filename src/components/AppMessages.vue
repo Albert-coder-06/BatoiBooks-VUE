@@ -4,27 +4,29 @@
     const deleteMessage = (index) => {
         store.deleteMessageAction(index);
     }
+
+    const getAlertClass = (type) => {
+        const types = {
+            'info': 'alert-info',
+            'success': 'alert-success',
+            'error': 'alert-danger',
+            'warning': 'alert-warning'
+        };
+        return types[type] || 'alert-info';
+    }
 </script>
 
 <template>
-    <div class="messages" id="messages">
+    <div class="messages mt-3" id="messages">
         <template v-if="store.state.messages.length">
-            <div :class="message.type" v-for="(message, index) in store.state.messages" :key="index">
-                <p>{{ message.message }}</p>
-                <button @click="deleteMessage(index)">X</button>
+            <div :class="['alert', getAlertClass(message.type), 'alert-dismissible', 'fade', 'show']" 
+                 v-for="(message, index) in store.state.messages" :key="index" role="alert">
+                {{ message.message }}
+                <button type="button" class="btn-close" @click="deleteMessage(index)" aria-label="Close"></button>
             </div>
         </template>
-        <p v-else>No hay ningún mensaje</p>
     </div>
 </template>
 
 <style scoped>
-    #messages {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-        border: 1px solid rgb(255, 0, 0);
-    }
-
-
 </style>

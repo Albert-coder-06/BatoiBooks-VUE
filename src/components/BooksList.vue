@@ -1,40 +1,38 @@
 <script setup>
-    import { onMounted } from 'vue';
+    import { onMounted, computed } from 'vue';
     import { store } from '../stores/store.js';
+    import BookItem from './BookItem.vue';
     
     const books = computed(() => store.state.books);
 
-    
+    const deleteBook = (id) => {
+        if (confirm('¿Estás seguro de que quieres eliminar este libro?')) {
+            store.removeBookAction(id);
+        }
+    };
 
+    onMounted(() => {
+        store.fetchBooksAction();
+    });
 
 </script>
 
 <template>
-
-    <div id="list" v-if="books.length">
-        <BookItem v-for="(value, index) in books :key="index" :book="">
-            
-        </BookItem>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-2" v-if="books.length">
+        <div v-for="book in books" :key="book.id" class="col">
+            <BookItem :book="book">
+                <button name="delete" class="btn btn-danger btn-sm" @click="deleteBook(book.id)">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </BookItem>
+        </div>
     </div>
 
-    <p v-else>No hay libros en la BBDD</p>
-
+    <div v-else class="alert alert-info text-center mt-4">
+        No hay libros en la BBDD
+    </div>
 </template>
 
-
 <style scoped>
-
-#list {
-    margin-top: 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: auto;
-    row-gap: 15px;
-    justify-self: center;
-    width: 100%;
-}
-
-
-
 </style>
 
