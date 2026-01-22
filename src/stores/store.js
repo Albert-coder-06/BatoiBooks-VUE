@@ -2,12 +2,16 @@ import { reactive } from "vue";
 import * as api from "../services/api";
 
 export const store = {
+
     debug: true,
     state: reactive({
         books: [],
         messages: [],
         cart: [],
+        modules: [],
     }),
+
+
     async fetchBooksAction() {
         if (this.debug) console.log("fetchBooksAction triggered");
 
@@ -28,6 +32,9 @@ export const store = {
     },
     async addBookAction(newBook) {
         if (this.debug) console.log("addBookAction triggered with ", newBook);
+
+        let lastId = this.state.books[this.state.books.length - 1].id;
+        newBook.id = String(parseInt(lastId) + 1);
 
         const response = await api.addBook(newBook);
 
@@ -50,6 +57,7 @@ export const store = {
             this.addMessageAction(response.message, 'error');
         }
     },
+
     getCartAction() {
         if (this.debug) console.log("getCartAction triggered");
 
@@ -71,6 +79,20 @@ export const store = {
         this.state.cart.splice(0, this.state.cart.length);
         localStorage.setItem("cart", JSON.stringify(this.state.cart));
     },
+
+    async loadModulesAction() {
+        if (this.debug) console.log("loadModulesAction triggered");
+
+        const response = await api.loadModules();
+
+        if (response.success) {
+            this.state.modules = response.data;
+            this.addMessageAction("Módulos cargados correctamente", 'success');
+        } else {
+            this.addMessageAction(response.message, 'error');
+        }
+    },
+
     addMessageAction(message, type = 'info') {
         this.state.messages.push({ message, type });
     },

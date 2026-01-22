@@ -1,44 +1,43 @@
 <script setup>
+    import { computed } from 'vue';
     import { store } from '../stores/store.js';
 
     const props = defineProps({
         book : Object,
     });
 
-    const deleteBook = (bookId) => {
-        store.removeBookAction(bookId);
-    }
+    const moduleName = computed(() => {
+        const module = store.state.modules.find(m => m.code === props.book.idModule);
+        return module ? module.cliteral : props.book.idModule;
+    });
 
 </script>
 
 
 <template>
+    <article>
+        <header>
+            <span>Libro: {{ props.book.id }}</span>
+            <h5>{{ moduleName }} ({{ props.book.id }})</h5>
+        </header>
+        
+        <div>
+            <b>{{ props.book.publisher }}</b>
+            <div>{{ props.book.pages }} páginas</div>
+            <div>Estado: {{ props.book.status }}</div>
+            <div>{{ props.book.soldDate && props.book.soldDate !== "" ? "Vendido el " + props.book.soldDate : "No vendido aún" }}</div>
+            <div><i>{{ props.book.comments }}</i></div>
+        </div>
 
-    <div class="card h-100 shadow-sm">
-        <div class="card-body">
-            <h5 class="card-title">Libro {{ props.book.id }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Módulo: {{ props.book.idModule }}</h6>
-
-            <p class="card-text">
-                <strong>Páginas:</strong> {{ props.book.pages }}<br>
-                <strong>Estado:</strong> <span class="badge bg-info text-dark">{{ props.book.status }}</span><br>
-                <strong>Venta:</strong> {{ props.book.soldDate && props.book.soldDate !== "" ? props.book.soldDate : "En venta" }}
-            </p>
-            <p class="small text-secondary">{{ props.book.comments }}</p>
-            <h4 class="text-primary">{{ props.book.price }}€</h4>
-            
-            <div class="d-flex justify-content-between mt-3">
-                <button class="btn btn-outline-primary btn-sm" name="add-to-cart">
-                    <i class="bi bi-cart-plus"></i>
-                </button>
-                <button class="btn btn-outline-secondary btn-sm" name="edit">
-                    <i class="bi bi-pencil"></i>
-                </button>
+        <footer>
+            <h5>{{ props.book.price }} €</h5>
+            <div>
+                <button title="Añadir al carrito"><i class="bi bi-cart-plus"></i></button>
+                <button title="Editar"><i class="bi bi-pencil"></i></button>
                 <slot></slot>
             </div>
-        </div>
-    </div>
-
+        </footer>
+    </article>
 </template>
 
 <style scoped>

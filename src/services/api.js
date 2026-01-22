@@ -38,4 +38,16 @@ const removeBook = async (bookId) => {
 
 };
 
-export { fetchBooks, addBook, removeBook };
+const loadModules = async () => {
+    try {
+        const response = await axios.get(`${SERVER_URL}/modules`);
+        return { success: true, data: response.data };
+    } catch (error) {
+        const message = error.response
+            ? `${error.response.status} ${error.response.data.message || 'Error del servidor'}`
+            : 'No se pudo conectar con el servidor';
+        return { success: false, message };
+    }
+};
+
+export { fetchBooks, addBook, removeBook, loadModules };

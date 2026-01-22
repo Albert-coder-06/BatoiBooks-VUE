@@ -5,6 +5,12 @@
     
     const books = computed(() => store.state.books);
 
+    const totalBooks = computed(() => books.value.length);
+    
+    const totalPrice = computed(() => {
+        return books.value.reduce((total, book) => total + parseFloat(book.price), 0).toFixed(2);
+    });
+
     const deleteBook = (id) => {
         if (confirm('¿Estás seguro de que quieres eliminar este libro?')) {
             store.removeBookAction(id);
@@ -13,26 +19,31 @@
 
     onMounted(() => {
         store.fetchBooksAction();
+        store.loadModulesAction();
     });
 
 </script>
 
 <template>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-2" v-if="books.length">
-        <div v-for="book in books" :key="book.id" class="col">
-            <BookItem :book="book">
-                <button name="delete" class="btn btn-danger btn-sm" @click="deleteBook(book.id)">
-                    <i class="bi bi-trash"></i>
-                </button>
-            </BookItem>
-        </div>
-    </div>
+    <div>
+        <section id="list" v-if="books.length">
+            <div v-for="book in books" :key="book.id">
+                <BookItem :book="book">
+                    <button @click="deleteBook(book.id)" title="Eliminar"><i class="bi bi-trash"></i></button>
+                </BookItem>
+            </div>
+        </section>
 
-    <div v-else class="alert alert-info text-center mt-4">
-        No hay libros en la BBDD
+        <div v-else>
+            No hay libros en la BBDD
+        </div>
+
+        <section id="summary" v-if="books.length">
+            <p>Total de libros: {{ totalBooks }}</p>
+            <p>Importe total: {{ totalPrice }} €</p>
+        </section>
     </div>
 </template>
 
 <style scoped>
 </style>
-
