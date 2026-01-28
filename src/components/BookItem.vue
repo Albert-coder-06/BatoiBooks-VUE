@@ -18,7 +18,7 @@
     <article>
         <header>
             <span>Libro: {{ props.book.id }}</span>
-            <h5>{{ moduleName }} ({{ props.book.id }})</h5>
+            <h6>Modulo: {{ moduleName }} ({{ props.book.idModule }})</h6>
         </header>
         
         <div>
@@ -33,8 +33,8 @@
             <h5>{{ props.book.price }} €</h5>
             <div>
                 <button title="Añadir al carrito"><i class="bi bi-cart-plus"></i></button>
-                <button title="Editar"><i class="bi bi-pencil"></i></button>
-                <slot></slot>
+                <slot name="delete"></slot>
+                <slot name="edit"></slot>
             </div>
         </footer>
     </article>

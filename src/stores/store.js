@@ -57,7 +57,36 @@ export const store = {
             this.addMessageAction(response.message, 'error');
         }
     },
+    async getBookAction(bookId) {
+        if (this.debug) console.log("getBookAction triggered with id ", bookId);
 
+        const response = await api.getBook(bookId);
+
+        if (response.success) {
+            this.addMessageAction("Libro cargado correctamente", 'success');
+            return response.data;
+        } else {
+            this.addMessageAction(response.message, 'error');
+            return false;
+        }
+    },
+    async updateBookAction(book) {
+        if (this.debug) console.log("updateBookAction triggered with book ", book);
+
+        const response = await api.updateBook(book);
+
+        if (response.success) {
+            this.addMessageAction("Libro editado correctamente", 'success');
+            return response.data;
+        } else {
+            this.addMessageAction(response.message, 'error');
+            return false;
+        }
+
+
+    },
+
+    
     getCartAction() {
         if (this.debug) console.log("getCartAction triggered");
 

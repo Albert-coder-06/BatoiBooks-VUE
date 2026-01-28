@@ -1,10 +1,8 @@
 <script setup>
+import { RouterView } from 'vue-router';
 import AppMenu from './components/AppMenu.vue'
 import AppMessages from './components/AppMessages.vue';
 import BooksList from './components/BooksList.vue';
-import BooksCart from './components/BooksCart.vue';
-import BookForm from './components/BookForm.vue';
-import AppAbout from './components/AppAbout.vue';
 </script>
 
 <template>
@@ -17,12 +15,10 @@ import AppAbout from './components/AppAbout.vue';
 
     <main>
       <AppMessages />
-      <BooksList />
-      <BookForm />
-      <BooksCart />
-      <AppAbout />
+      <RouterView />
     </main>
 
+    
 
     <footer>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -32,4 +28,13 @@ import AppAbout from './components/AppAbout.vue';
 </template>
 
 <style scoped>
+footer {
+  display: grid;
+  text-align: center;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  padding: 20px;
+  background-color: black;
+  color: white;
+}
 </style>
