@@ -18,4 +18,12 @@
 </template>
 
 <style scoped>
+    aside {
+        background-color: #d1ecf1;
+        border: 1px solid #bee5eb;
+        padding: 5px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+    }
 </style>

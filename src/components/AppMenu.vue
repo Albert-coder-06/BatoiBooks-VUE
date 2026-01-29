@@ -10,4 +10,20 @@
 </template>
 
 <style scoped>
+
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    nav a {
+        color: #6f42c1;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    nav a::before {
+        content: "• ";
+    }
+
 </style>

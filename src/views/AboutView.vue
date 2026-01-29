@@ -5,5 +5,11 @@
   </div>
 </template>
 
-<style>
+<style scoped>
+
+  section#about {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #ccc;
+  }
 </style>

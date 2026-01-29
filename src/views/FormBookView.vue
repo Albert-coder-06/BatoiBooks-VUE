@@ -6,10 +6,9 @@
     const route = useRoute();
     const router = useRouter();
 
-    // 1. Detectamos el modo dinámicamente. ¡No necesitas props para esto, hermano!
     const formMode = computed(() => (route.name === "edit-book") ? "edit" : "add");
+    const modules = computed(() => store.state.modules);
 
-    // 2. Estado local del formulario
     const newBook = ref({
         idModule: 0,
         publisher: "",
@@ -20,9 +19,8 @@
         soldDate: ""
     });
 
-    const modules = computed(() => store.state.modules);
 
-    // 3. Lógica para guardar (POST o PUT)
+
     const saveBook = () => {
         if (formMode.value === "edit") {
             store.updateBookAction(newBook.value);
@@ -32,14 +30,12 @@
         }
     };
 
-    // 4. Resetear el formulario (Usando Spread Operator, tt)
     const resetForm = async () => {
         if (formMode.value === "edit") {
             const originalBook = await store.getBookAction(route.params.id);
-            // Copiamos todas las propiedades de golpe
+
             newBook.value = { ...originalBook };
         } else {
-            // Limpiar para modo "add"
             newBook.value = { idModule: 0, publisher: "", price: 0, pages: 0, status: "", comments: "", soldDate: "" };
         }
     };
@@ -47,15 +43,16 @@
     onMounted(async () => {
         store.loadModulesAction();
 
-        // Si estamos editando, cargamos los datos del libro al entrar
         if (formMode.value === 'edit') {
+
             const bookData = await store.getBookAction(route.params.id);
+
             if (bookData) {
-                // Rellenamos el formulario con lo que viene del store
                 newBook.value = { ...bookData };
             }
         }
     });
+
 </script>
 
 <template>
@@ -92,3 +89,9 @@
         </form>
     </div>
 </template>
+
+<style scoped>
+    form {
+        margin-top: 10px;
+    }
+</style>

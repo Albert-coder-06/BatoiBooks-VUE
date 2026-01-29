@@ -58,4 +58,17 @@
 </template>
 
 <style scoped>
+
+    section#list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    section#summary {
+        border-top: 1px solid #ccc;
+        padding-top: 10px;
+        margin-bottom: 20px;
+    }
 </style>

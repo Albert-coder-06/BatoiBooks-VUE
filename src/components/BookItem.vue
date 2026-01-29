@@ -41,4 +41,41 @@
 </template>
 
 <style scoped>
+
+/* Book Card */
+article {
+    background-color: #ffc0cb;
+    border: 1px solid #ffb6c1;
+    padding: 10px;
+    width: 250px;
+}
+
+article h5 {
+    margin: 5px 0;
+}
+
+article footer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Icons/Buttons style from image */
+article button {
+    background-color: white;
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 2px 5px;
+    margin-left: 2px;
+    cursor: pointer;
+}
+
+article button i {
+    color: black;
+    font-size: 0.9rem;
+}
+
+
+
 </style>

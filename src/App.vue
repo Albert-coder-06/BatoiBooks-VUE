@@ -2,11 +2,10 @@
 import { RouterView } from 'vue-router';
 import AppMenu from './components/AppMenu.vue'
 import AppMessages from './components/AppMessages.vue';
-import BooksList from './components/BooksList.vue';
 </script>
 
 <template>
-  <div>
+  <div class="app-container">
     <header>
       <img src="https://www.cipfpbatoi.es/wp-content/uploads/2020/05/logo-batoi.png" alt="Batoi Logo">
       <h1>BatoiBooks</h1>
@@ -28,13 +27,24 @@ import BooksList from './components/BooksList.vue';
 </template>
 
 <style scoped>
-footer {
-  display: grid;
-  text-align: center;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto;
-  padding: 20px;
-  background-color: black;
-  color: white;
-}
+  footer {
+    display: grid;
+    text-align: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    padding: 20px;
+    background-color: black;
+    color: white;
+  }
+
+  .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+  }
+
+  header,
+  main {
+      padding: 0 20px;
+  }
 </style>
