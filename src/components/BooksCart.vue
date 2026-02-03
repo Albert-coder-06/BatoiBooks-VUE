@@ -1,8 +1,10 @@
 <script setup>
-    import { store } from '../stores/store.js';
+    import { useBatoiStore } from '../stores/batoiStore.js';
     import { onMounted, computed } from 'vue';
 
-    /*const cart = computed(() => store.state.cart);
+    const store = useBatoiStore();
+
+    /*const cart = computed(() => store.cart);
 
     onMounted(() => {
         store.getCartAction();

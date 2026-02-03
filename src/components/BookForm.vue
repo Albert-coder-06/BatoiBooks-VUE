@@ -1,6 +1,8 @@
 <script setup>
-    import { store } from '../stores/store.js';
+    import { useBatoiStore } from '../stores/batoiStore.js';
     import { computed, ref, onMounted } from 'vue';
+
+    const store = useBatoiStore();
 
     const newBook = ref({
       idModule: 0,
@@ -16,7 +18,7 @@
         store.addBookAction(newBook.value);
     }
 
-    const modules = computed(() => store.state.modules);
+    const modules = computed(() => store.modules);
 
     onMounted(() => {
         store.loadModulesAction();  

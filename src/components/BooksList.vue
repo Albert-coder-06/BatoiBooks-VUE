@@ -1,9 +1,10 @@
 <script setup>
     import { onMounted, computed } from 'vue';
-    import { store } from '../stores/store.js';
+    import { useBatoiStore } from '../stores/batoiStore.js';
     import BookItem from './BookItem.vue';
     
-    const books = computed(() => store.state.books);
+    const store = useBatoiStore();
+    const books = computed(() => store.books);
 
     const totalBooks = computed(() => books.value.length);
     

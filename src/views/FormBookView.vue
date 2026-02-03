@@ -1,13 +1,15 @@
 <script setup>
     import { useRoute, useRouter } from 'vue-router';
-    import { store } from '../stores/store.js';
-    import { computed, ref, onMounted } from 'vue';
+    import { useBatoiStore } from '../stores/batoiStore.js';
+    import { computed, ref, onMounted, watch } from 'vue';
 
     const route = useRoute();
     const router = useRouter();
+    const store = useBatoiStore();
 
-    const formMode = computed(() => (route.name === "edit-book") ? "edit" : "add");
-    const modules = computed(() => store.state.modules);
+    const formMode = computed(() => route.name === "edit-book" ? "edit" : "add");
+
+    const modules = computed(() => store.modules);
 
     const newBook = ref({
         idModule: 0,
@@ -18,8 +20,6 @@
         comments: "",
         soldDate: ""
     });
-
-
 
     const saveBook = () => {
         if (formMode.value === "edit") {
@@ -39,6 +39,12 @@
             newBook.value = { idModule: 0, publisher: "", price: 0, pages: 0, status: "", comments: "", soldDate: "" };
         }
     };
+
+    watch(formMode, (newVal) => {
+        if (newVal === "add") {
+            resetForm();
+        }
+    });
 
     onMounted(async () => {
         store.loadModulesAction();

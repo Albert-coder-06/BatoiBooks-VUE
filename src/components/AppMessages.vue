@@ -1,5 +1,6 @@
 <script setup>
-    import { store } from '../stores/store.js';
+    import { useBatoiStore } from '../stores/batoiStore.js';
+    const store = useBatoiStore();
 
     const deleteMessage = (index) => {
         store.deleteMessageAction(index);
@@ -8,8 +9,8 @@
 
 <template>
     <div id="messages">
-        <template v-if="store.state.messages.length">
-            <aside v-for="(message, index) in store.state.messages" :key="index">
+        <template v-if="store.messages.length">
+            <aside v-for="(message, index) in store.messages" :key="index">
                 <span>{{ message.message }}</span>
                 <button type="button" @click="deleteMessage(index)">x</button>
             </aside>

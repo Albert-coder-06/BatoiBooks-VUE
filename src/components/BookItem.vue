@@ -1,13 +1,15 @@
 <script setup>
     import { computed } from 'vue';
-    import { store } from '../stores/store.js';
+    import { useBatoiStore } from '../stores/batoiStore.js';
+
+    const store = useBatoiStore();
 
     const props = defineProps({
         book : Object,
     });
 
     const moduleName = computed(() => {
-        const module = store.state.modules.find(m => m.code === props.book.idModule);
+        const module = store.modules.find(m => m.code === props.book.idModule);
         return module ? module.cliteral : props.book.idModule;
     });
 
