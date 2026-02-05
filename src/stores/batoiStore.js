@@ -48,7 +48,9 @@ export const useBatoiStore = defineStore('batoi', () => {
 
     async function removeBookAction(bookIdToRemove) {
         if (debug.value) console.log("removeBookAction triggered with id ", bookIdToRemove);
+        
         const response = await api.removeBook(bookIdToRemove);
+    
         if (response.success) {
             books.value = books.value.filter((book) => book.id !== bookIdToRemove);
             addMessageAction(response.message, 'success');
@@ -123,7 +125,7 @@ export const useBatoiStore = defineStore('batoi', () => {
         }
 
         if (debug.value) console.log("loadModulesAction triggered");
-        
+
         const response = await api.loadModules();
 
         if (response.success) {
